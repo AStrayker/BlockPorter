@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BlockPorter — Кроссчейн обмен</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="logo.svg" type="image/svg+xml"/>
+  <link rel="manifest" href="manifest.json"/>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="logo.svg" alt="BlockPorter" height="40"/>
+      </a>
+
+      <!-- Десктопное меню -->
+      <nav class="nav desktop-nav">
+        <a href="index.html">Главная</a>
+        <a href="dashboard.html">Обмен</a>
+        <a href="about.html">О проекте</a>
+        <a href="profile.html">Профиль</a>
+        <span id="auth-status"><a href="auth.html">Войти</a></span>
+      </nav>
+
+      <!-- Бургер-меню -->
+      <button class="burger-menu" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Мобильное выдвижное меню -->
+    <nav class="mobile-menu" id="mobile-menu">
+      <button class="close-menu" id="close-menu">×</button>
+      <a href="index.html">Главная</a>
+      <a href="dashboard.html">Обмен</a>
+      <a href="about.html">О проекте</a>
+      <a href="profile.html">Профиль</a>
+      <span id="auth-status-mobile"><a href="auth.html">Войти</a></span>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Герой-секция -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>BlockPorter</h1>
+          <p class="hero-subtitle">Мгновенный кроссчейн-обмен без посредников</p>
+          <a href="dashboard.html" class="btn hero-btn">Начать обмен</a>
+        </div>
+
+        <!-- Полукруг справа с биржами -->
+        <div class="exchanges-semicircle">
+          <div class="semicircle-bg"></div>
+          <div class="exchanges-list">
+            <div class="exchange-item binance">Binance</div>
+            <div class="exchange-item coinbase">Coinbase</div>
+            <div class="exchange-item kucoin">KuCoin</div>
+            <div class="exchange-item bybit">Bybit</div>
+            <div class="exchange-item okx">OKX</div>
+            <div class="exchange-item gateio">Gate.io</div>
+            <div class="exchange-item uniswap">Uniswap</div>
+            <div class="exchange-item pancakeswap">PancakeSwap</div>
+            <div class="exchange-item quickswap">QuickSwap</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Объяснение кроссчейн-обмена -->
+    <section class="explanation container">
+      <h2>Что такое кроссчейн-обмен?</h2>
+      <p>
+        Кроссчейн-обмен — это технология, которая позволяет мгновенно перемещать ваши активы (токены, стейблкоины, NFT) между разными блокчейнами без посредников.
+      </p>
+      <p>
+        Вы отправляете ETH с Ethereum и получаете USDT на Binance Smart Chain, TON, Polygon или Solana.  
+        Всё происходит децентрализовано: ключи остаются у вас, нет бирж, KYC и долгих ожиданий.
+      </p>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="features container">
+      <div class="feature-card">
+        <i class="fas fa-bolt"></i>
+        <h3>Мгновенно</h3>
+        <p>Обмен за секунды</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Безопасно</h3>
+        <p>Non-custodial — ваши ключи</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-hand-holding-usd"></i>
+        <h3>Выгодно</h3>
+        <p>Низкие комиссии</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Бургер-меню
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenu = document.getElementById('close-menu');
+
+    burger.addEventListener('click', () => mobileMenu.classList.add('active'));
+    closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+    document.addEventListener('click', e => {
+      if (!mobileMenu.contains(e.target) && !burger.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+      }
+    });
+
+    // Статус авторизации
+    function updateAuthStatus() {
+      const status = document.getElementById('auth-status');
+      const statusMobile = document.getElementById('auth-status-mobile');
+      const connected = localStorage.getItem('walletConnected') === 'true';
+      const addr = localStorage.getItem('walletAddress');
+
+      let content = '<a href="auth.html">Войти</a>';
+      if (connected && addr) {
+        const short = addr.slice(0,6) + '...' + addr.slice(-4);
+        content = `
+          <a href="profile.html">${short}</a>
+          <button onclick="localStorage.clear(); location.reload();">Выйти</button>
+        `;
+      }
+
+      if (status) status.innerHTML = content;
+      if (statusMobile) statusMobile.innerHTML = content;
+    }
+
+    updateAuthStatus();
+  </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BlockPorter — Подтверждение обмена</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="logo.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body class="swap-body">
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="logo.svg" alt="BlockPorter" height="36"/>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="dashboard.html">Обмен</a>
+        <a href="about.html">О проекте</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="swap-main">
+    <div class="swap-card glass-effect">
+      <h1 class="swap-title">Подтверждение обмена</h1>
+
+      <div class="swap-details">
+        <p><strong>Сеть отправления:</strong> <span id="from-chain-display"></span></p>
+        <p><strong>Сеть получения:</strong> <span id="to-chain-display"></span></p>
+        <p><strong>Токен отправления:</strong> <span id="from-token-display"></span></p>
+        <p><strong>Токен получения:</strong> <span id="to-token-display"></span></p>
+        <p><strong>Сумма отправления:</strong> <span id="from-amount-display"></span></p>
+        <p><strong>Сумма получения (примерно):</strong> <span id="to-amount-display"></span></p>
+        <p id="ton-address-display" style="display:none;"><strong>Адрес TON:</strong> <span id="ton-address-value"></span></p>
+      </div>
+
+      <div class="terms-section">
+        <input type="checkbox" id="terms-checkbox">
+        <label for="terms-checkbox">Я согласен с <a href="terms.html" target="_blank">условиями обмена</a></label>
+      </div>
+
+      <button id="confirm-swap" class="btn primary-btn" disabled>
+        Подтвердить обмен
+      </button>
+
+      <div id="error-message" class="error-message" style="display:none;">Перевод не удался</div>
+    </div>
+  </main>
+
+  <script>
+    const chainIds = {
+      'ethereum': '0x1',
+      'bsc': '0x38',
+      'polygon': '0x89',
+      'optimism': '0xa',
+      'arbitrum': '0xa4b1',
+      'ton': null
+    };
+
+    const nativeTokens = {
+      'ethereum': 'ETH',
+      'bsc': 'BNB',
+      'polygon': 'MATIC',
+      'optimism': 'ETH',
+      'arbitrum': 'ETH'
+    };
+
+    const tokenAddresses = {
+      'ethereum': {
+        'USDC': '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        'USDT': '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        'XRP': '' // Не на ETH, пропустить
+      },
+      'bsc': {
+        'USDC': '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
+        'USDT': '0x55d398326f99059ff775485246999027b3197955',
+        'TON': '0x76a797a59ba2c17726896976b7b3747bfd1d220f'
+      },
+      'polygon': {
+        'USDC': '0x3c499c542caf5e3815e1192ce70d8cc03d5c3359',
+        'USDT': '0xc2132d05d31c914a87c6611c10748aeb04b58e8f'
+      },
+      'optimism': {
+        'USDC': '0x0b2c639c533813f4aa9d7837caf62653d097ff85',
+        'USDT': '0x94b008aa00579c13056b0a762ad3df1c4d26d567'
+      },
+      'arbitrum': {
+        'USDC': '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+        'USDT': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9'
+      }
+    };
+
+    const erc20ABI = [
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [{"name": "", "type": "uint8"}],
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}],
+        "name": "approve",
+        "outputs": [{"name": "", "type": "bool"}],
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}],
+        "name": "transfer",
+        "outputs": [{"name": "", "type": "bool"}],
+        "type": "function"
+      }
+    ];
+
+    const platformAddress = '0xf77a1a27da4b74ff7be6535d76dbc90f6f5330c4';
+
+    const swapData = JSON.parse(localStorage.getItem('swapData'));
+    if (swapData) {
+      document.getElementById('from-chain-display').textContent = swapData.fromChain;
+      document.getElementById('to-chain-display').textContent = swapData.toChain;
+      document.getElementById('from-token-display').textContent = swapData.fromToken;
+      document.getElementById('to-token-display').textContent = swapData.toToken;
+      document.getElementById('from-amount-display').textContent = swapData.fromAmount + ' ' + swapData.fromToken;
+      document.getElementById('to-amount-display').textContent = swapData.toAmount + ' ' + swapData.toToken;
+      if (swapData.tonAddress) {
+        document.getElementById('ton-address-display').style.display = 'block';
+        document.getElementById('ton-address-value').textContent = swapData.tonAddress;
+      }
+    }
+
+    document.getElementById('terms-checkbox').addEventListener('change', (e) => {
+      document.getElementById('confirm-swap').disabled = !e.target.checked;
+    });
+
+    document.getElementById('confirm-swap').addEventListener('click', async () => {
+      if (!window.ethereum) {
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = 'MetaMask не установлен';
+        return;
+      }
+
+      const fromChain = swapData.fromChain;
+      const chainId = chainIds[fromChain];
+      if (!chainId) {
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = 'Сеть отправления не поддерживается MetaMask';
+        return;
+      }
+
+      try {
+        // Переключение сети
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId }],
+        });
+
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.getAccounts();
+        const fromAddress = accounts[0];
+
+        const token = swapData.fromToken;
+        const isNative = nativeTokens[fromChain] === token;
+        const amount = parseFloat(swapData.fromAmount);
+
+        if (isNative) {
+          const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
+          const tx = {
+            from: fromAddress,
+            to: platformAddress,
+            value: amountInWei,
+          };
+          const txHash = await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [tx],
+          });
+          console.log(`Native tx hash: ${txHash}`);
+        } else {
+          const tokenAddress = tokenAddresses[fromChain][token];
+          if (!tokenAddress) {
+            throw new Error('Адрес токена не найден для этой сети');
+          }
+
+          const contract = new web3.eth.Contract(erc20ABI, tokenAddress);
+
+          // Получить decimals
+          const decimals = await contract.methods.decimals().call();
+          const amountInUnits = (BigInt(Math.floor(amount * 10 ** decimals))).toString();
+
+          // Approve
+          const approveTx = await contract.methods.approve(platformAddress, amountInUnits).send({ from: fromAddress });
+          console.log(`Approve tx hash: ${approveTx.transactionHash}`);
+
+          // Transfer
+          const transferTx = await contract.methods.transfer(platformAddress, amountInUnits).send({ from: fromAddress });
+          console.log(`Transfer tx hash: ${transferTx.transactionHash}`);
+        }
+
+        // Успех, перенаправление
+        localStorage.removeItem('swapData');
+        window.location.href = 'processing.html';
+      } catch (err) {
+        console.error(err);
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = 'Перевод не удался: ' + (err.message || 'Неизвестная ошибка');
+      }
+    });
+  </script>
+</body>
+</html>
