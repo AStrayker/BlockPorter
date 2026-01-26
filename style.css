@@ -3012,3 +3012,110 @@ small {
     padding: 8px 16px;
   }
 }
+
+/* Адаптивный header + выдвижное меню справа */
+.header {
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px);
+  padding: 15px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo img { height: 40px; }
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.desktop-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.desktop-nav a:hover { color: #00ff9d; }
+
+/* Бургер-иконка */
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.burger-menu span {
+  width: 30px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* Выдвижное меню справа */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 85%;
+  max-width: 340px;
+  height: 100%;
+  background: rgba(15,15,35,0.98);
+  backdrop-filter: blur(12px);
+  padding: 80px 30px 30px;
+  transition: right 0.45s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.side-menu.open {
+  right: 0;
+}
+
+.side-menu a,
+.side-menu span {
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.side-menu a:hover { color: #00ff9d; }
+
+.close-menu {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+  .desktop-nav { display: none; }
+  .burger-menu { display: flex; }
+}
+
+/* Остальной контент (герой, объяснение, преимущества) остаётся как в предыдущей версии */
