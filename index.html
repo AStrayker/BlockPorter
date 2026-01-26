@@ -7,15 +7,12 @@
   <link rel="stylesheet" href="style.css"/>
   <link rel="icon" href="logo.svg" type="image/svg+xml"/>
 </head>
-<body class="main-page">
-  <!-- Шапка -->
+<body>
   <header class="header">
     <div class="container">
       <a href="index.html" class="logo">
         <img src="logo.svg" alt="BlockPorter" height="40"/>
       </a>
-
-      <!-- Десктопное меню -->
       <nav class="nav desktop-nav">
         <a href="index.html">Главная</a>
         <a href="dashboard.html">Обмен</a>
@@ -23,8 +20,6 @@
         <a href="profile.html">Профиль</a>
         <span id="auth-status"><a href="auth.html">Войти</a></span>
       </nav>
-
-      <!-- Бургер (для мобильных) -->
       <button class="burger" id="burger">
         <span></span>
         <span></span>
@@ -32,9 +27,8 @@
       </button>
     </div>
 
-    <!-- Выдвижное меню (открывается свайпом справа) -->
-    <nav class="side-menu" id="side-menu">
-      <button class="close-side" id="close-side">×</button>
+    <nav class="mobile-menu" id="mobile-menu">
+      <button class="close-menu" id="close-menu">×</button>
       <a href="index.html">Главная</a>
       <a href="dashboard.html">Обмен</a>
       <a href="about.html">О проекте</a>
@@ -43,85 +37,43 @@
     </nav>
   </header>
 
-  <!-- Основной контент -->
-  <main class="hero-section">
-    <div class="container">
-      <div class="hero-content">
+  <main class="hero">
+    <div class="container hero-grid">
+      <div class="hero-left">
         <h1>BlockPorter</h1>
-        <p class="subtitle">Мгновенный кроссчейн-обмен без границ</p>
-        <a href="dashboard.html" class="btn start-btn">Начать обмен</a>
+        <p class="subtitle">Быстрый кроссчейн-обмен без посредников</p>
+        <a href="dashboard.html" class="btn hero-btn">Начать обмен</a>
+      </div>
+
+      <!-- Зелёный полукруг справа -->
+      <div class="exchanges-circle">
+        <div class="circle-bg"></div>
+        <div class="exchanges">
+          <div class="exchange binance" style="--angle: 0deg;">Binance</div>
+          <div class="exchange coinbase" style="--angle: 45deg;">Coinbase</div>
+          <div class="exchange kucoin" style="--angle: 90deg;">KuCoin</div>
+          <div class="exchange bybit" style="--angle: 135deg;">Bybit</div>
+          <div class="exchange okx" style="--angle: 180deg;">OKX</div>
+          <div class="exchange gateio" style="--angle: 225deg;">Gate.io</div>
+          <div class="exchange uniswap" style="--angle: 270deg;">Uniswap</div>
+          <div class="exchange pancakeswap" style="--angle: 315deg;">PancakeSwap</div>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Объяснение кроссчейн-обмена -->
-  <section class="explanation container">
-    <h2>Что такое кроссчейн-обмен?</h2>
-    <p>
-      Кроссчейн-обмен — это технология, которая позволяет мгновенно и без посредников переводить ваши активы (токены, стейблкоины, NFT) между разными блокчейнами.  
-      Вы отправляете ETH с Ethereum и получаете USDT на TON, Polygon, Solana или Binance Smart Chain.
-    </p>
-    <p>
-      Всё децентрализовано: ваши ключи остаются у вас, нет бирж, KYC и долгого ожидания.  
-      Просто кошелёк и несколько кликов.
-    </p>
-  </section>
-
-  <!-- Преимущества -->
-  <section class="features container">
-    <div class="feature">
-      <i class="fas fa-rocket"></i>
-      <h3>Скорость</h3>
-      <p>Обмен за секунды</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-lock"></i>
-      <h3>Безопасность</h3>
-      <p>Non-custodial</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-wallet"></i>
-      <h3>Выгода</h3>
-      <p>Низкие комиссии</p>
-    </div>
-  </section>
-
   <script>
-    // Бургер и выдвижное меню
+    // Бургер-меню (как раньше)
     const burger = document.getElementById('burger');
-    const sideMenu = document.getElementById('side-menu');
-    const closeSide = document.getElementById('close-side');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenu = document.getElementById('close-menu');
 
-    // Открытие по клику на бургер
-    burger.addEventListener('click', () => sideMenu.classList.add('open'));
+    burger.addEventListener('click', () => mobileMenu.classList.add('active'));
+    closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
 
-    // Закрытие по крестику
-    closeSide.addEventListener('click', () => sideMenu.classList.remove('open'));
-
-    // Свайп справа для открытия (на мобильных)
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    document.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    document.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 80 && touchStartX > window.innerWidth * 0.85) {
-        // Свайп слева направо от правого края — открываем меню
-        sideMenu.classList.add('open');
-      }
-      if (touchEndX - touchStartX > 80 && sideMenu.classList.contains('open')) {
-        // Свайп справа налево — закрываем
-        sideMenu.classList.remove('open');
-      }
-    });
-
-    // Закрытие по клику вне меню
     document.addEventListener('click', e => {
-      if (!sideMenu.contains(e.target) && !burger.contains(e.target)) {
-        sideMenu.classList.remove('open');
+      if (!mobileMenu.contains(e.target) && !burger.contains(e.target)) {
+        mobileMenu.classList.remove('active');
       }
     });
 
@@ -135,10 +87,7 @@
       let content = '<a href="auth.html">Войти</a>';
       if (connected && addr) {
         const short = addr.slice(0,6) + '...' + addr.slice(-4);
-        content = `
-          <a href="profile.html">${short}</a>
-          <button onclick="localStorage.clear(); location.reload();">Выйти</button>
-        `;
+        content = `<a href="profile.html">${short}</a> <button onclick="localStorage.clear(); location.reload();">Выйти</button>`;
       }
 
       if (status) status.innerHTML = content;
