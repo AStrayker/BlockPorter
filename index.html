@@ -6,9 +6,9 @@
   <title>BlockPorter — Кроссчейн обмен</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="icon" href="logo.svg" type="image/svg+xml"/>
-  <link rel="manifest" href="manifest.json"/>
 </head>
-<body>
+<body class="main-page">
+  <!-- Шапка -->
   <header class="header">
     <div class="container">
       <a href="index.html" class="logo">
@@ -24,17 +24,17 @@
         <span id="auth-status"><a href="auth.html">Войти</a></span>
       </nav>
 
-      <!-- Бургер-меню -->
-      <button class="burger-menu" id="burger">
+      <!-- Бургер (для мобильных) -->
+      <button class="burger" id="burger">
         <span></span>
         <span></span>
         <span></span>
       </button>
     </div>
 
-    <!-- Мобильное выдвижное меню -->
-    <nav class="mobile-menu" id="mobile-menu">
-      <button class="close-menu" id="close-menu">×</button>
+    <!-- Выдвижное меню (открывается свайпом справа) -->
+    <nav class="side-menu" id="side-menu">
+      <button class="close-side" id="close-side">×</button>
       <a href="index.html">Главная</a>
       <a href="dashboard.html">Обмен</a>
       <a href="about.html">О проекте</a>
@@ -43,78 +43,85 @@
     </nav>
   </header>
 
-  <main>
-    <!-- Герой-секция -->
-    <section class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1>BlockPorter</h1>
-          <p class="hero-subtitle">Мгновенный кроссчейн-обмен без посредников</p>
-          <a href="dashboard.html" class="btn hero-btn">Начать обмен</a>
-        </div>
-
-        <!-- Полукруг справа с биржами -->
-        <div class="exchanges-semicircle">
-          <div class="semicircle-bg"></div>
-          <div class="exchanges-list">
-            <div class="exchange-item binance">Binance</div>
-            <div class="exchange-item coinbase">Coinbase</div>
-            <div class="exchange-item kucoin">KuCoin</div>
-            <div class="exchange-item bybit">Bybit</div>
-            <div class="exchange-item okx">OKX</div>
-            <div class="exchange-item gateio">Gate.io</div>
-            <div class="exchange-item uniswap">Uniswap</div>
-            <div class="exchange-item pancakeswap">PancakeSwap</div>
-            <div class="exchange-item quickswap">QuickSwap</div>
-          </div>
-        </div>
+  <!-- Основной контент -->
+  <main class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1>BlockPorter</h1>
+        <p class="subtitle">Мгновенный кроссчейн-обмен без границ</p>
+        <a href="dashboard.html" class="btn start-btn">Начать обмен</a>
       </div>
-    </section>
-
-    <!-- Объяснение кроссчейн-обмена -->
-    <section class="explanation container">
-      <h2>Что такое кроссчейн-обмен?</h2>
-      <p>
-        Кроссчейн-обмен — это технология, которая позволяет мгновенно перемещать ваши активы (токены, стейблкоины, NFT) между разными блокчейнами без посредников.
-      </p>
-      <p>
-        Вы отправляете ETH с Ethereum и получаете USDT на Binance Smart Chain, TON, Polygon или Solana.  
-        Всё происходит децентрализовано: ключи остаются у вас, нет бирж, KYC и долгих ожиданий.
-      </p>
-    </section>
-
-    <!-- Преимущества -->
-    <section class="features container">
-      <div class="feature-card">
-        <i class="fas fa-bolt"></i>
-        <h3>Мгновенно</h3>
-        <p>Обмен за секунды</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Безопасно</h3>
-        <p>Non-custodial — ваши ключи</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-hand-holding-usd"></i>
-        <h3>Выгодно</h3>
-        <p>Низкие комиссии</p>
-      </div>
-    </section>
+    </div>
   </main>
 
+  <!-- Объяснение кроссчейн-обмена -->
+  <section class="explanation container">
+    <h2>Что такое кроссчейн-обмен?</h2>
+    <p>
+      Кроссчейн-обмен — это технология, которая позволяет мгновенно и без посредников переводить ваши активы (токены, стейблкоины, NFT) между разными блокчейнами.  
+      Вы отправляете ETH с Ethereum и получаете USDT на TON, Polygon, Solana или Binance Smart Chain.
+    </p>
+    <p>
+      Всё децентрализовано: ваши ключи остаются у вас, нет бирж, KYC и долгого ожидания.  
+      Просто кошелёк и несколько кликов.
+    </p>
+  </section>
+
+  <!-- Преимущества -->
+  <section class="features container">
+    <div class="feature">
+      <i class="fas fa-rocket"></i>
+      <h3>Скорость</h3>
+      <p>Обмен за секунды</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-lock"></i>
+      <h3>Безопасность</h3>
+      <p>Non-custodial</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-wallet"></i>
+      <h3>Выгода</h3>
+      <p>Низкие комиссии</p>
+    </div>
+  </section>
+
   <script>
-    // Бургер-меню
+    // Бургер и выдвижное меню
     const burger = document.getElementById('burger');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const closeMenu = document.getElementById('close-menu');
+    const sideMenu = document.getElementById('side-menu');
+    const closeSide = document.getElementById('close-side');
 
-    burger.addEventListener('click', () => mobileMenu.classList.add('active'));
-    closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    // Открытие по клику на бургер
+    burger.addEventListener('click', () => sideMenu.classList.add('open'));
 
+    // Закрытие по крестику
+    closeSide.addEventListener('click', () => sideMenu.classList.remove('open'));
+
+    // Свайп справа для открытия (на мобильных)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 80 && touchStartX > window.innerWidth * 0.85) {
+        // Свайп слева направо от правого края — открываем меню
+        sideMenu.classList.add('open');
+      }
+      if (touchEndX - touchStartX > 80 && sideMenu.classList.contains('open')) {
+        // Свайп справа налево — закрываем
+        sideMenu.classList.remove('open');
+      }
+    });
+
+    // Закрытие по клику вне меню
     document.addEventListener('click', e => {
-      if (!mobileMenu.contains(e.target) && !burger.contains(e.target)) {
-        mobileMenu.classList.remove('active');
+      if (!sideMenu.contains(e.target) && !burger.contains(e.target)) {
+        sideMenu.classList.remove('open');
       }
     });
 
