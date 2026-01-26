@@ -13,6 +13,7 @@
       <a href="index.html" class="logo">
         <img src="logo.svg" alt="BlockPorter" height="40"/>
       </a>
+
       <nav class="nav desktop-nav">
         <a href="index.html">Главная</a>
         <a href="dashboard.html">Обмен</a>
@@ -20,6 +21,7 @@
         <a href="profile.html">Профиль</a>
         <span id="auth-status"><a href="auth.html">Войти</a></span>
       </nav>
+
       <button class="burger" id="burger">
         <span></span>
         <span></span>
@@ -41,29 +43,41 @@
     <div class="container hero-grid">
       <div class="hero-left">
         <h1>BlockPorter</h1>
-        <p class="subtitle">Быстрый кроссчейн-обмен без посредников</p>
-        <a href="dashboard.html" class="btn hero-btn">Начать обмен</a>
+        <p class="subtitle">Мгновенный кроссчейн-обмен без посредников</p>
+        <a href="dashboard.html" class="btn start-btn">Начать обмен</a>
       </div>
 
-      <!-- Зелёный полукруг справа -->
-      <div class="exchanges-circle">
-        <div class="circle-bg"></div>
+      <!-- Зелёный полукруг с биржами -->
+      <div class="exchanges-semicircle">
+        <div class="semicircle-bg"></div>
         <div class="exchanges">
-          <div class="exchange binance" style="--angle: 0deg;">Binance</div>
-          <div class="exchange coinbase" style="--angle: 45deg;">Coinbase</div>
-          <div class="exchange kucoin" style="--angle: 90deg;">KuCoin</div>
-          <div class="exchange bybit" style="--angle: 135deg;">Bybit</div>
-          <div class="exchange okx" style="--angle: 180deg;">OKX</div>
-          <div class="exchange gateio" style="--angle: 225deg;">Gate.io</div>
-          <div class="exchange uniswap" style="--angle: 270deg;">Uniswap</div>
-          <div class="exchange pancakeswap" style="--angle: 315deg;">PancakeSwap</div>
+          <div class="exchange binance" style="--rot: 0deg;">Binance</div>
+          <div class="exchange coinbase" style="--rot: 40deg;">Coinbase</div>
+          <div class="exchange kucoin" style="--rot: 80deg;">KuCoin</div>
+          <div class="exchange bybit" style="--rot: 120deg;">Bybit</div>
+          <div class="exchange okx" style="--rot: 160deg;">OKX</div>
+          <div class="exchange gateio" style="--rot: 200deg;">Gate.io</div>
+          <div class="exchange uniswap" style="--rot: 240deg;">Uniswap</div>
+          <div class="exchange pancakeswap" style="--rot: 280deg;">PancakeSwap</div>
+          <div class="exchange quickswap" style="--rot: 320deg;">QuickSwap</div>
         </div>
       </div>
     </div>
   </main>
 
+  <section class="explanation container">
+    <h2>Что такое кроссчейн-обмен?</h2>
+    <p>
+      Кроссчейн-обмен — это мгновенный перевод активов между разными блокчейнами без посредников.  
+      Вы отправляете ETH с Ethereum и получаете USDT на TON, Polygon или BSC — всё происходит децентрализовано, безопасно и быстро.
+    </p>
+    <p>
+      Ключи остаются у вас. Нет KYC, нет бирж, нет ожидания — только кошелёк и один клик.
+    </p>
+  </section>
+
   <script>
-    // Бургер-меню (как раньше)
+    // Бургер-меню
     const burger = document.getElementById('burger');
     const mobileMenu = document.getElementById('mobile-menu');
     const closeMenu = document.getElementById('close-menu');
