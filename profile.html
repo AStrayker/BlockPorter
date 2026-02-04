@@ -3,120 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BlockPorter — Профиль</title>
+  <title>BlockPorter — Кроссчейн обмен криптовалют</title>
   <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="icon" href="logo.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
-<body class="profile-body">
+<body class="home-body">
+
+  <!-- Header -->
   <header class="header">
     <div class="container">
       <a href="index.html" class="logo">
-        <img src="logo.svg" alt="BlockPorter" height="36"/>
+        <img src="logo.svg" alt="BlockPorter" height="40"/>
+        <span class="logo-text">BlockPorter</span>
       </a>
       <nav class="nav">
-        <a href="index.html">Главная</a>
+        <a href="index.html" class="active">Главная</a>
         <a href="dashboard.html">Обмен</a>
         <a href="about.html">О проекте</a>
-        <span id="auth-status">Профиль</span>
+        <a href="profile.html">Профиль</a>
       </nav>
     </div>
   </header>
 
-  <main class="profile-main">
-    <div class="profile-card glass">
-      <div class="profile-header">
-        <div class="avatar">
-          <i class="fas fa-wallet"></i>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="gradient-text">Кроссчейн обмен</span><br>
+          без границ и задержек
+        </h1>
+        <p class="hero-subtitle">
+          Мгновенно перемещайте криптовалюту между Ethereum, BSC, Polygon, Optimism, Arbitrum и TON. <br>
+          Минимальная комиссия 4.5%, максимальная безопасность и скорость.
+        </p>
+        <div class="hero-buttons">
+          <a href="dashboard.html" class="btn neon-btn large">
+            Начать обмен <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="about.html" class="btn outline-btn">
+            Узнать больше
+          </a>
         </div>
-        <h1>Ваш кошелёк</h1>
       </div>
 
-      <!-- Блок подключённого кошелька -->
-      <div id="wallet-connected" style="display:none;">
-        <div class="address-block">
-          <div class="address-label">Адрес</div>
-          <div class="address-value" id="full-address">—</div>
-          <button id="copy-address" class="btn copy-btn">
-            <i class="fas fa-copy"></i> Копировать адрес
-          </button>
+      <!-- Floating cards / визуальные элементы -->
+      <div class="floating-elements">
+        <div class="floating-card" style="top: 15%; left: 10%; animation-delay: 0s;">
+          <i class="fab fa-ethereum"></i>
+          <span>Ethereum</span>
         </div>
-
-        <button id="disconnect" class="btn logout-btn">
-          <i class="fas fa-sign-out-alt"></i> Выйти
-        </button>
-      </div>
-
-      <!-- Блок без подключения -->
-      <div id="no-wallet" class="connect-prompt">
-        <p>Подключите кошелёк, чтобы начать работу</p>
-        <button id="connect-wallet" class="btn neon-btn">
-          Подключить MetaMask
-        </button>
+        <div class="floating-card" style="top: 40%; right: 12%; animation-delay: 1s;">
+          <i class="fas fa-coins"></i>
+          <span>USDT / USDC</span>
+        </div>
+        <div class="floating-card" style="bottom: 20%; left: 15%; animation-delay: 2s;">
+          <i class="fas fa-bolt"></i>
+          <span>TON</span>
+        </div>
+        <div class="floating-card" style="top: 60%; right: 20%; animation-delay: 3s;">
+          <i class="fas fa-network-wired"></i>
+          <span>Polygon</span>
+        </div>
       </div>
     </div>
-  </main>
+  </section>
 
-  <script>
-    let currentAccount = null;
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Почему выбирают BlockPorter</h2>
+      <div class="features-grid">
+        <div class="feature-card glass-effect">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Безопасность</h3>
+          <p>Только проверенные смарт-контракты и децентрализованные мосты</p>
+        </div>
+        <div class="feature-card glass-effect">
+          <i class="fas fa-clock"></i>
+          <h3>Скорость</h3>
+          <p>Обмен за минуты, а не часы или дни</p>
+        </div>
+        <div class="feature-card glass-effect">
+          <i class="fas fa-percentage"></i>
+          <h3>Низкие комиссии</h3>
+          <p>Всего 4.5% — одна из самых выгодных ставок на рынке</p>
+        </div>
+        <div class="feature-card glass-effect">
+          <i class="fas fa-exchange-alt"></i>
+          <h3>Поддержка 7+ сетей</h3>
+          <p>Ethereum, BSC, Polygon, Optimism, Arbitrum, TON и другие</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // Загрузка состояния при открытии страницы
-    function loadProfileState() {
-      const connected = localStorage.getItem('walletConnected') === 'true';
-      currentAccount = localStorage.getItem('walletAddress');
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Готовы к быстрому обмену?</h2>
+      <a href="dashboard.html" class="btn neon-btn large">
+        Перейти к обмену <i class="fas fa-rocket"></i>
+      </a>
+    </div>
+  </section>
 
-      if (connected && currentAccount) {
-        document.getElementById('wallet-connected').style.display = 'block';
-        document.getElementById('no-wallet').style.display = 'none';
-        document.getElementById('full-address').textContent = currentAccount;
-      } else {
-        document.getElementById('wallet-connected').style.display = 'none';
-        document.getElementById('no-wallet').style.display = 'block';
-      }
-    }
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="logo.svg" alt="BlockPorter" height="32"/>
+          <p>BlockPorter © 2026</p>
+        </div>
+        <div class="footer-links">
+          <a href="about.html">О проекте</a>
+          <a href="terms.html">Условия использования</a>
+          <a href="#">Контакты</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    // Подключение кошелька
-    document.getElementById('connect-wallet').addEventListener('click', async () => {
-      if (!window.ethereum) return alert('MetaMask не установлен');
-
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        currentAccount = accounts[0].toLowerCase();
-
-        localStorage.setItem('walletAddress', currentAccount);
-        localStorage.setItem('walletConnected', 'true');
-
-        loadProfileState();
-      } catch (err) {
-        alert('Ошибка подключения');
-      }
-    });
-
-    // Копирование адреса
-    document.getElementById('copy-address').addEventListener('click', () => {
-      if (currentAccount) {
-        navigator.clipboard.writeText(currentAccount);
-        alert('Адрес скопирован!');
-      }
-    });
-
-    // Выход — теперь полностью скрывает блок и показывает подключение
-    document.getElementById('disconnect').addEventListener('click', () => {
-      localStorage.clear();          // Полная очистка
-      currentAccount = null;         // Сброс переменной
-      loadProfileState();            // Перерисовка интерфейса
-      // Можно добавить alert('Вы вышли из кошелька');
-    });
-
-    // Инициализация при загрузке
-    loadProfileState();
-
-    // Автообновление при смене аккаунта в MetaMask
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', () => {
-        loadProfileState();
-      });
-    }
-  </script>
 </body>
 </html>
